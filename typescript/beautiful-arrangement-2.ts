@@ -1,13 +1,21 @@
-function constructArray(n: number, k: number): number[] | void {
-  return getBeautifulArrangement([], n, k)
+type Solution = [isSolved: boolean, solution: number[]];
+
+function constructArray(n: number, k: number): number[] {
+  const [result, solution] = getBeautifulArrangement([], n, k)
+  if (result === true) {
+    return solution
+  } else {
+    // console.log(`Failed to find a valid solution for n: ${n}, k: %{k}`)
+    return []
+  }
 };
 
-function getBeautifulArrangement(arrangement: number[], n: number, k: number): number[] | void {
+function getBeautifulArrangement(arrangement: number[], n: number, k: number): Solution {
   if (isBeautifulArrangement(arrangement, n, k)) {
-    console.log(`Beautiful arrangement found: ${arrangement}`)
-    return arrangement
+    // console.log(`Beautiful arrangement found: ${arrangement}`)
+    return [true, arrangement]
   }
-  
+
   if (arrangement.length === 0) {
     const newArrangement = [1]
     return getBeautifulArrangement(newArrangement, n, k)
@@ -15,11 +23,11 @@ function getBeautifulArrangement(arrangement: number[], n: number, k: number): n
 
   const differences = getDifferences(arrangement)
   const distinctDifferencesCount = getDistinctDifferencesCount(differences)
-  
+
   if (distinctDifferencesCount < k) {
-    getNumberThatCreatesDistinctDifference(arrangement, n, k)
+    return getNumberThatCreatesDistinctDifference(arrangement, n, k)
   } else {
-    getNumberThatMatchesExistingDifference(arrangement, n, k)
+    return getNumberThatMatchesExistingDifference(arrangement, n, k)
   }
   // throw new Error("Unable to find beautiful arrangement")
 }
@@ -36,7 +44,7 @@ function isBeautifulArrangement(arrangement: number[], n: number, k: number): bo
 }
 
 
-function getNumberThatCreatesDistinctDifference(arrangement: number[], n: number, k: number): void {
+function getNumberThatCreatesDistinctDifference(arrangement: number[], n: number, k: number): Solution {
     const differences = getDifferences(arrangement)
     const distinctDifferences = new Set([...differences])
     const possibleNumbers = new Set(Array.from(Array(n).keys()).map(i => i += 1))
@@ -47,13 +55,17 @@ function getNumberThatCreatesDistinctDifference(arrangement: number[], n: number
       if (!distinctDifferences.has(Math.abs(mostRecentNumber - unusedNumber))) {
          const newArrangement = Object.assign([], arrangement);
          newArrangement.push(unusedNumber)
-         getBeautifulArrangement(newArrangement, n, k)
+         const [result, solution] = getBeautifulArrangement(newArrangement, n, k)
+         if (result === true) {
+           return [result, solution]
+         }
       }
     }
-    // throw new Error(`No number that creates distinct difference found for arrangement ${arrangement}, n ${n}, mostRecentNumber ${mostRecentNumber}, unusedNumbers: ${[...unusedNumbers]}`)
+    // console.log(`No number that creates distinct difference found for arrangement ${arrangement}, n ${n}, mostRecentNumber ${mostRecentNumber}, unusedNumbers: ${[...unusedNumbers]}`)
+    return [false, []]
 }
 
-function getNumberThatMatchesExistingDifference(arrangement: number[], n: number, k: number): void {
+function getNumberThatMatchesExistingDifference(arrangement: number[], n: number, k: number): Solution {
     const differences = getDifferences(arrangement)
     const distinctDifferences = new Set([...differences])
     const possibleNumbers = new Set(Array.from(Array(n).keys()).map(i => i += 1))
@@ -64,22 +76,26 @@ function getNumberThatMatchesExistingDifference(arrangement: number[], n: number
       if (distinctDifferences.has(Math.abs(mostRecentNumber - unusedNumber))) {
          const newArrangement = Object.assign([], arrangement);
          newArrangement.push(unusedNumber)
-         getBeautifulArrangement(newArrangement, n, k)
+         const [result, solution] = getBeautifulArrangement(newArrangement, n, k)
+         if (result === true) {
+           return [result, solution]
+         }
       }
     }
-    // throw new Error(`No number that matches existing difference found for arrangement: ${arrangement}, n: ${n}, mostRecentNumber: ${mostRecentNumber}, unusedNumbers: ${[...unusedNumbers]}`)
+    // console.log(`No number that matches existing difference found for arrangement: ${arrangement}, n: ${n}, mostRecentNumber: ${mostRecentNumber}, unusedNumbers: ${[...unusedNumbers]}`)
+    return [false, []]
 }
 
 function getDistinctDifferencesCount(differences: number[]): number {
   const distinctDifferencesCount = new Set([...differences]).size;
-  console.log(`distinctDifferencesCount: ${distinctDifferencesCount}`)
+  // console.log(`distinctDifferencesCount: ${distinctDifferencesCount}`)
   return distinctDifferencesCount
 }
 
 function getDifferences(arrangement: number[]): number[] {
   let differences = new Array();
   pairwise(arrangement, (curr, next) => differences.push(Math.abs(curr - next)))
-  console.log(`differences: ${differences}`)
+  // console.log(`differences: ${differences}`)
   return differences
 }
 
@@ -89,8 +105,7 @@ function pairwise(arr: number[], func: (curr: number, next: number) => {}){
     }
 }
 
-const result = constructArray(3, 2)
-console.log(`result: ${result}`)
+// const result = constructArray(3, 2)
+// console.log(`result: ${result}`)
 // const differences = getDifferences([1,3,2])
 // const distinctDifferences = getDistinctDifferences(differences)
-
