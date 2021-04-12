@@ -1,35 +1,49 @@
 type Solution = [isSolved: boolean, solution: number[]];
 
+class ArraySet extends Set {
+  add(arr: number[]) {
+    return super.add(arr.toString());
+  }
+  has(arr: number[]) {
+    return super.has(arr.toString());
+  }
+}
+
+const invalidArrangements = new ArraySet();
+
 function constructArray(n: number, k: number): number[] {
   const [result, solution] = getBeautifulArrangement([], n, k)
   if (result === true) {
     return solution
-  } else {
-    // console.log(`Failed to find a valid solution for n: ${n}, k: %{k}`)
-    return []
   }
+  // console.log(`Failed to find a valid solution for n: ${n}, k: %{k}`)
+  return []
 };
 
 function getBeautifulArrangement(arrangement: number[], n: number, k: number): Solution {
+  // console.log(`getBeautifulArrangement called with arrangement ${arrangement}`)
+  // console.log(`invalidArrangements ${invalidArrangements}`)
   if (isBeautifulArrangement(arrangement, n, k)) {
     // console.log(`Beautiful arrangement found: ${arrangement}`)
     return [true, arrangement]
   }
 
-  if (arrangement.length === 0) {
-    const newArrangement = [1]
-    return getBeautifulArrangement(newArrangement, n, k)
+  if (isInvalid(arrangement, n, k)) {
+    invalidArrangements.add(arrangement)
+    return [false, arrangement]
   }
 
   const differences = getDifferences(arrangement)
   const distinctDifferencesCount = getDistinctDifferencesCount(differences)
 
-  if (distinctDifferencesCount < k) {
+  if (arrangement.length === 0) {
+    const newArrangement = [1]
+    return getBeautifulArrangement(newArrangement, n, k)
+  } else if (distinctDifferencesCount < k) {
     return getNumberThatCreatesDistinctDifference(arrangement, n, k)
   } else {
     return getNumberThatMatchesExistingDifference(arrangement, n, k)
   }
-  // throw new Error("Unable to find beautiful arrangement")
 }
 
 function isBeautifulArrangement(arrangement: number[], n: number, k: number): boolean {
@@ -41,6 +55,21 @@ function isBeautifulArrangement(arrangement: number[], n: number, k: number): bo
     const usedAllPossibleNumbers = possibleNumbers.size === usedNumbers.size
     const distinctDifferencesCountMatchesK = distinctDifferencesCount === k
     return usedAllPossibleNumbers && distinctDifferencesCountMatchesK
+}
+
+function isInvalid(arrangement: number[], n: number, k: number): boolean {
+   if(invalidArrangements.has(arrangement)) {
+     return true;
+   }
+
+    const differences = getDifferences(arrangement)
+    const distinctDifferencesCount = getDistinctDifferencesCount(differences)
+    const possibleNumbers = new Set(Array.from(Array(n).keys()).map(i => i += 1))
+    const usedNumbers = new Set(arrangement)
+
+    const usedNumbersExceedsPossibleNumbers = usedNumbers.size > possibleNumbers.size
+    const distinctDifferencesCountExceedsK = distinctDifferencesCount > k
+    return usedNumbersExceedsPossibleNumbers || distinctDifferencesCountExceedsK
 }
 
 
@@ -62,7 +91,8 @@ function getNumberThatCreatesDistinctDifference(arrangement: number[], n: number
       }
     }
     // console.log(`No number that creates distinct difference found for arrangement ${arrangement}, n ${n}, mostRecentNumber ${mostRecentNumber}, unusedNumbers: ${[...unusedNumbers]}`)
-    return [false, []]
+    // invalidArrangements.add(arrangement)
+    return [false, arrangement]
 }
 
 function getNumberThatMatchesExistingDifference(arrangement: number[], n: number, k: number): Solution {
@@ -83,7 +113,8 @@ function getNumberThatMatchesExistingDifference(arrangement: number[], n: number
       }
     }
     // console.log(`No number that matches existing difference found for arrangement: ${arrangement}, n: ${n}, mostRecentNumber: ${mostRecentNumber}, unusedNumbers: ${[...unusedNumbers]}`)
-    return [false, []]
+    // invalidArrangements.add(arrangement)
+    return [false, arrangement]
 }
 
 function getDistinctDifferencesCount(differences: number[]): number {
@@ -105,7 +136,7 @@ function pairwise(arr: number[], func: (curr: number, next: number) => {}){
     }
 }
 
-// const result = constructArray(3, 2)
+// const result = constructArray(3, 1)
 // console.log(`result: ${result}`)
 // const differences = getDifferences([1,3,2])
 // const distinctDifferences = getDistinctDifferences(differences)
