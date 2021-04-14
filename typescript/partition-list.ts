@@ -40,14 +40,14 @@ function generateLinkedList(array: number[]): ListNode | null {
 
 function appendToList(head: ListNode | null, nodeToAppend: ListNode): ListNode {
     if (head == null) {
-        head = nodeToAppend
-    } else {
-        let current = head;
-        while (current.next != null) {
-            current = current.next;
-        }
-        current.next = nodeToAppend
+        return nodeToAppend
     }
+
+    let current = head;
+    while (current.next != null) {
+        current = current.next;
+    }
+    current.next = nodeToAppend
     return head;
 }
 
