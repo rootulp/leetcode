@@ -10,9 +10,9 @@ class ListNode {
 
 
 function partition(head: ListNode | null, x: number): ListNode | null {
-    let current = head;
     let valuesLessThanX = [];
     let valuesGreaterThanOrEqualToX = [];
+    let current = head;
     while (current != null) {
         if (current.val < x) {
             valuesLessThanX.push(current.val);
@@ -21,16 +21,14 @@ function partition(head: ListNode | null, x: number): ListNode | null {
         }
         current = current.next;
     }
-    const result = [...valuesLessThanX, ...valuesGreaterThanOrEqualToX]
-    console.log(result)
-    return generateLinkedList(result)
+
+    return generateLinkedList([...valuesLessThanX, ...valuesGreaterThanOrEqualToX])
 };
 
 function generateLinkedList(array: number[]): ListNode | null {
     let head = null;
     while (array.length != 0) {
-        const nextVal = array.shift()
-        const nextNode = new ListNode(nextVal);
+        const nextNode = new ListNode(array.shift());
         if (head == null) {
             head = nextNode
         } else {
