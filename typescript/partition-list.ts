@@ -10,9 +10,9 @@ class ListNode {
 
 
 function partition(head: ListNode | null, x: number): ListNode | null {
-    return head;
+    return new ListNode(3);
 };
 
 const test = new ListNode(2, new ListNode(1))
 const result = partition(test, 2)
-console.log(`result: ${result}`)
+console.log(`result: ${JSON.stringify(result)}`)
