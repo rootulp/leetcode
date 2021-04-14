@@ -38,11 +38,7 @@ function generateLinkedList(array: number[]): ListNode | null {
     return head;
 }
 
-function appendToList(head: ListNode | null, nodeToAppend: ListNode): ListNode {
-    if (head == null) {
-        return nodeToAppend
-    }
-
+function appendToList(head: ListNode, nodeToAppend: ListNode): ListNode {
     let current = head;
     while (current.next != null) {
         current = current.next;
