@@ -10,32 +10,48 @@ class ListNode {
 
 
 function partition(head: ListNode | null, x: number): ListNode | null {
-    let nodesLessThanX = null;
-    const tip = head;
     let current = head;
-    while (current.next != null) {
-        console.log(`current.next != null`)
-        console.log(`nodesLessThanX: ${JSON.stringify(nodesLessThanX)}`)
-        if (current.next.val < x ) {
-            if (nodesLessThanX == null) {
-                nodesLessThanX = current.next;
-            } else {
-                let lastNodeLessThanX = nodesLessThanX;
-                while (lastNodeLessThanX.next != null) {
-                    console.log(`lastNodeLessThanX.next != null`)
-                    lastNodeLessThanX = lastNodeLessThanX.next
-                }
-                lastNodeLessThanX.next = current.next;
-                lastNodeLessThanX.next.next = null;
-            }
-            current.next = current.next.next;
+    let valuesLessThanX = [];
+    let valuesGreaterThanOrEqualToX = [];
+    while (current != null) {
+        if (current.val < x) {
+            valuesLessThanX.push(current.val);
+        } else {
+            valuesGreaterThanOrEqualToX.push(current.val);
         }
         current = current.next;
     }
-    console.log(`current: ${JSON.stringify(current)}`)
-    console.log(`nodesLessThanX: ${JSON.stringify(nodesLessThanX)}`)
-    return new ListNode(3);
+    const result = [...valuesLessThanX, ...valuesGreaterThanOrEqualToX]
+    console.log(result)
+    return generateLinkedList(result)
 };
+
+function generateLinkedList(array: number[]): ListNode | null {
+    let head = null;
+    while (array.length != 0) {
+        const nextVal = array.shift()
+        const nextNode = new ListNode(nextVal);
+        if (head == null) {
+            head = nextNode
+        } else {
+            appendToList(head, nextNode)
+        }
+    }
+    return head;
+}
+
+function appendToList(head: ListNode | null, nodeToAppend: ListNode): ListNode {
+    if (head == null) {
+        head = nodeToAppend
+    } else {
+        let current = head;
+        while (current.next != null) {
+            current = current.next;
+        }
+        current.next = nodeToAppend
+    }
+    return head;
+}
 
 const test = new ListNode(1, new ListNode(4, new ListNode(3, new ListNode(2, new ListNode(5, new ListNode(2))))))
 const result = partition(test, 3)
