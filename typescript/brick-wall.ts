@@ -1,6 +1,4 @@
 function leastBricks(wall: number[][]): number {
-    let maxEdges = 0;
-
     const indexToNumEdges = new Map<Number, number>();
     for (let row = 0; row < wall.length; row += 1) {
         let index = 0;
@@ -12,9 +10,10 @@ function leastBricks(wall: number[][]): number {
             }
             const incrementedEdges = indexToNumEdges.get(index) + 1
             indexToNumEdges.set(index, incrementedEdges);
-            maxEdges = Math.max(maxEdges, incrementedEdges);
         }
     }
 
+    // Include default value of 0 in case no edges were added to indexToNumEdges
+    const maxEdges = Math.max(0, ...indexToNumEdges.values())
     return wall.length - maxEdges;
 };
