@@ -13,14 +13,19 @@ interface State {
 class TraverseBuildings {
 
     private readonly heights: number[];
+    private seen: Map<State, number> = new Map();
 
     constructor(heights: number[]) {
         this.heights = heights;
     }
 
-    public  getFurthestBuilding(state: State): number {
-        const {bricks, ladders, position} = state;
+    public getFurthestBuilding(state: State): number {
+        const { bricks, ladders, position } = state;
         // console.log(`bricks: ${bricks}, ladders: ${ladders}, position ${position}`);
+
+        if (this.seen.has(state)) {
+            return this.seen.get(state);
+        }
         if (position === this.heights.length - 1) {
             return position
         }
@@ -44,6 +49,9 @@ class TraverseBuildings {
             advanceWithLadder = this.getFurthestBuilding({bricks, ladders: ladders - 1, position: position + 1});
         }
 
-        return Math.max(advanceWithBricks, advanceWithLadder);
+        const furthestBuilding = Math.max(advanceWithBricks, advanceWithLadder);
+        this.seen.set(state, furthestBuilding);
+
+        return furthestBuilding;
     }
 }
