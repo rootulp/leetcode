@@ -1,7 +1,13 @@
 function furthestBuilding(heights: number[], bricks: number, ladders: number): number {
     const traverseBuildings = new TraverseBuildings(heights);
-    return traverseBuildings.getFurthestBuilding(bricks, ladders, 0);
+    return traverseBuildings.getFurthestBuilding({bricks, ladders, position: 0});
 };
+
+interface State {
+    bricks: number,
+    ladders: number,
+    position: number
+}
 
 
 class TraverseBuildings {
@@ -12,13 +18,14 @@ class TraverseBuildings {
         this.heights = heights;
     }
 
-    public  getFurthestBuilding(bricks: number, ladders: number, position: number): number {
+    public  getFurthestBuilding(state: State): number {
+        const {bricks, ladders, position} = state;
         // console.log(`bricks: ${bricks}, ladders: ${ladders}, position ${position}`);
         if (position === this.heights.length - 1) {
             return position
         }
         if (this.heights[position] >= this.heights[position + 1]) {
-            return this.getFurthestBuilding(bricks, ladders, position + 1);
+            return this.getFurthestBuilding({bricks, ladders, position: position + 1});
         }
 
         const bricksNeeded = this.heights[position + 1] - this.heights[position];
@@ -31,10 +38,10 @@ class TraverseBuildings {
         let advanceWithBricks = 0;
         let advanceWithLadder = 0;
         if (canUseBricks) {
-            advanceWithBricks = this.getFurthestBuilding(bricks - bricksNeeded, ladders, position + 1);
+            advanceWithBricks = this.getFurthestBuilding({bricks: bricks - bricksNeeded, ladders, position: position + 1});
         }
         if (canUseLadders) {
-            advanceWithLadder = this.getFurthestBuilding(bricks, ladders - 1, position + 1);
+            advanceWithLadder = this.getFurthestBuilding({bricks, ladders: ladders - 1, position: position + 1});
         }
 
         return Math.max(advanceWithBricks, advanceWithLadder);
