@@ -24,21 +24,3 @@ func TestGroupAnagrams(t *testing.T) {
 		}
 	}
 }
-
-// func isEqualUnsorted(a [][]string, b [][]string) bool {
-// 	for _, set := range a {
-// 		if !contains(b, set) {
-// 			return false
-// 		}
-// 	}
-// 	return true
-// }
-
-// func contains(words []string, search string) bool {
-// 	for _, word := range words {
-// 		if word == search {
-// 			return true
-// 		}
-// 	}
-// 	return false
-// }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"sort"
 )
 
@@ -16,7 +15,6 @@ func groupAnagrams(words []string) (result [][]string) {
 		}
 		sortedToAnagrams[sorted] = append(sortedToAnagrams[sorted], word)
 	}
-	fmt.Printf("sortedToAnagrams %v\n", sortedToAnagrams)
 
 	for _, anagrams := range sortedToAnagrams {
 		// The problem description states that anagrams can be returned in any
