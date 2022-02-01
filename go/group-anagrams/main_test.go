@@ -12,7 +12,7 @@ type test struct {
 
 func TestGroupAnagrams(t *testing.T) {
 	tests := []test{
-		{[]string{"eat", "tea", "tan", "ate", "nat", "bat"}, [][]string{{"bat"}, {"nat", "tan"}, {"ate", "eat", "tea"}}},
+		{[]string{"eat", "tea", "tan", "ate", "nat", "bat"}, [][]string{{"ate", "eat", "tea"}, {"nat", "tan"}, {"bat"}}},
 		{[]string{""}, [][]string{{""}}},
 		{[]string{"a"}, [][]string{{"a"}}},
 	}
@@ -24,3 +24,21 @@ func TestGroupAnagrams(t *testing.T) {
 		}
 	}
 }
+
+// func isEqualUnsorted(a [][]string, b [][]string) bool {
+// 	for _, set := range a {
+// 		if !contains(b, set) {
+// 			return false
+// 		}
+// 	}
+// 	return true
+// }
+
+// func contains(words []string, search string) bool {
+// 	for _, word := range words {
+// 		if word == search {
+// 			return true
+// 		}
+// 	}
+// 	return false
+// }

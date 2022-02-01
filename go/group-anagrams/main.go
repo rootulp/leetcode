@@ -19,6 +19,9 @@ func groupAnagrams(words []string) (result [][]string) {
 	fmt.Printf("sortedToAnagrams %v\n", sortedToAnagrams)
 
 	for _, anagrams := range sortedToAnagrams {
+		// The problem description states that anagrams can be returned in any
+		// order but sorting makes it easier to test the output
+		sort.Strings(anagrams)
 		result = append(result, anagrams)
 	}
 	return result
