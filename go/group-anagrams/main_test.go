@@ -12,7 +12,9 @@ type test struct {
 
 func TestGroupAnagrams(t *testing.T) {
 	tests := []test{
+		{[]string{"eat", "tea", "tan", "ate", "nat", "bat"}, [][]string{{"bat"}, {"nat", "tan"}, {"ate", "eat", "tea"}}},
 		{[]string{""}, [][]string{{""}}},
+		{[]string{"a"}, [][]string{{"a"}}},
 	}
 
 	for _, test := range tests {
