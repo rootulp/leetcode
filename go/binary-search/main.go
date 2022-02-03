@@ -12,7 +12,7 @@ func binary_search(nums []int, target int, low int, high int) int {
 	}
 	middleIndex := int((low + high) / 2)
 	middle := nums[middleIndex]
-	fmt.Printf("binarySearch(%v, %v, %v, %v) and middleIndex %v\n", nums, target, low, high, middleIndex)
+	// fmt.Printf("binarySearch(%v, %v, %v, %v) and middleIndex %v\n", nums, target, low, high, middleIndex)
 	if target == middle {
 		return middleIndex
 	} else if target < middle {
@@ -22,6 +22,6 @@ func binary_search(nums []int, target int, low int, high int) int {
 		// recursively search right side
 		return binary_search(nums, target, middleIndex+1, high)
 	} else {
-		panic(fmt.Sprintf("failed to match any comparison conditional for val %v and target %v", middle, target))
+		panic(fmt.Sprintf("failed to match any comparison conditional for middle %v and target %v", middle, target))
 	}
 }
