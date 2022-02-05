@@ -1,7 +1,5 @@
 package firstbadversion
 
-import "fmt"
-
 /**
  * Forward declaration of isBadVersion API.
  * @param   version   your guess about first bad version
@@ -15,7 +13,6 @@ func firstBadVersion(n int) int {
 }
 
 func binarySearch(n int, low int, high int, firstBadVersionSoFar int) (firstBadVersion int) {
-	fmt.Printf("binarySearch(%v, %v, %v, %v)\n", n, low, high, firstBadVersionSoFar)
 	if low == high {
 		if isBadVersion(low) {
 			return low
