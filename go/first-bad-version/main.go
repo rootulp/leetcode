@@ -16,18 +16,17 @@ func firstBadVersion(n int) int {
 
 func binarySearch(n int, low int, high int, firstBadVersionSoFar int) (firstBadVersion int) {
 	fmt.Printf("binarySearch(%v, %v, %v, %v)\n", n, low, high, firstBadVersionSoFar)
-	if low > high {
-		return firstBadVersionSoFar
-	}
 	if low == high {
-		if isBadVersion(low) && low < firstBadVersionSoFar {
+		if isBadVersion(low) {
 			return low
 		}
 		return firstBadVersionSoFar
 	}
+	if low > high {
+		return firstBadVersionSoFar
+	}
+
 	middle := int((high + low) / 2)
-	result := isBadVersion(middle)
-	fmt.Printf("middle %v is %v\n", middle, result)
 	if isBadVersion(middle) {
 		return binarySearch(n, low, middle-1, middle)
 	} else {
