@@ -1,32 +1,24 @@
 package main
 
 import (
-	"fmt"
 	"math"
 )
 
 func sortedSquares(nums []int) (result []int) {
 	left := indexOfLastNegative(nums)
 	right := indexOfFirstPositive(nums)
-	for left >= 0 || right < len(nums)-1 {
-		fmt.Printf("left %v right %v\n", left, right)
-		leftSquared := pow(nums[left], 2)
-		rightSquared := pow(nums[right], 2)
-		if left == 0 {
-			fmt.Printf("left is 0, adding rightSquared %v\n", rightSquared)
-			result = append(result, rightSquared)
+	for len(nums) != len(result) {
+		if left < 0 {
+			result = append(result, pow(nums[right], 2))
 			right += 1
-		} else if right == len(nums)-1 {
-			fmt.Printf("right is %v, adding leftSquared %v\n", len(nums)-1, leftSquared)
-			result = append(result, leftSquared)
+		} else if right >= len(nums) {
+			result = append(result, pow(nums[left], 2))
 			left -= 1
-		} else if leftSquared <= rightSquared {
-			fmt.Printf("leftSquared %v <= rightSquared %v\n", leftSquared, rightSquared)
-			result = append(result, leftSquared)
+		} else if pow(nums[left], 2) <= pow(nums[right], 2) {
+			result = append(result, pow(nums[left], 2))
 			left -= 1
-		} else if leftSquared > rightSquared {
-			fmt.Printf("leftSquared %v > rightSquared %v\n", leftSquared, rightSquared)
-			result = append(result, rightSquared)
+		} else if pow(nums[left], 2) > pow(nums[right], 2) {
+			result = append(result, pow(nums[right], 2))
 			right += 1
 		}
 	}
