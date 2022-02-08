@@ -44,7 +44,7 @@ func indexOfFirstPositive(nums []int) (index int) {
 			return i
 		}
 	}
-	return len(nums) - 1
+	return len(nums)
 }
 
 func pow(a int, b int) (result int) {
