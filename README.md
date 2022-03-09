@@ -12,7 +12,3 @@ If you are new to LeetCode, you can get started at [leetcode.com](https://leetco
 ## Contribute
 
 I'd appreciate any feedback via [issues](https://github.com/rootulp/leetcode/issues/new).
-
-## License
-
-[MIT](https://rootulp.mit-license.org/) © [Rootul Patel](https://rootulp.com)
