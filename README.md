@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/:license-mit-blue.svg)](https://rootulp.mit-license.org)
 
-> [LeetCode](https://www.leetcode.com) solutions
+[LeetCode](https://www.leetcode.com) solutions
 
 ## Getting Started
 
