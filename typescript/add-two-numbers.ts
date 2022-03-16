@@ -11,40 +11,21 @@
  */
 
  function addTwoNumbers(l1: ListNode | null, l2: ListNode | null): ListNode | null {
-    const num1 = getNumber(l1)
-    const num2 = getNumber(l2)
-    console.log(`num1: ${num1}, num2: ${num2}`)
-    const result = num1 + num2;
-    console.log(`result: ${result}`)
-    return linkedList(result)
+    return addWithCarry(l1, l2, 0)
 };
 
-function getNumber(current: ListNode): number {
-    let result = ""
-    while(current != null) {
-        result = current.val.toString() + result
-        current = current.next;
+function addWithCarry(l1: ListNode | null, l2: ListNode | null, carry: number): ListNode | null {
+    const v1 = l1?.val ?? 0;
+    const v2 = l2?.val ?? 0;
+    const sum = v1 + v2 + carry;
+    const val = sum % 10;
+    const nextCarry = Math.floor(sum / 10)
+
+    if (l1 || l2 || carry) {
+        return new ListNode(
+            val,
+            addWithCarry(l1?.next ?? null, l2?.next ?? null, nextCarry),
+        )
     }
-    return parseInt(result)
+    return null;
 }
-
-function linkedList(num: number): ListNode {
-    let head = null;
-    let current = null;
-    for(let char of reverseString(num.toString())) {
-        const next = new ListNode(parseInt(char));
-        if (head == null && current == null) {
-            head = next
-            current = next
-        } else {
-            current.next = next
-            current = next
-
-        }
-    }
-    return head;
-}
-
- function reverseString(str: string): string {
-     return [...str].reverse().join("");
- }
